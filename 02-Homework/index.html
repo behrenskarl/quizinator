@@ -11,8 +11,32 @@
 </head>
 <body>
    <header>
-       <h1>Quizinator!</h1>
+       <h1 class="text-center">Quizinator!</h1>
     </header>
+    <div class="text-center">
+        <!--container for questions and answers-->
+        <div id="container">
+            <div id="quiz" style="display: none">
+                <div id="question"></div>
+                <div id="choices">
+                    <div class="choice" id="A" onclick="checkAnswer('A')"></div>
+                    <div class="choice" id="B" onclick="checkAnswer('B')"></div>
+                    <div class="choice" id="C" onclick="checkAnswer('C')"></div>
+                    <div class="choice" id="D" onclick="checkAnswer('D')"></div>
+                </div>
+                <!--score tracker-->
+                <div id="progress"></div>
+            </div>
+            <div id="scoreContainer" style="display: none"></div>
+        </div>
+
+
+        <!-- begin quiz button -->
+        <button id="start-button" class="btn btn-primary btn-lg"><h1>Begin Quiz!</h1></button>
+    
+        
+    </div>
+        <!--timer-->
         <div class="container">
             <div class="timer">
                 <div class="status"> <span id="status">Time Left:</span></div>
@@ -22,9 +46,15 @@
             </div>
         </div>
    
+        
    
     <script src="script.js"></script>
-    <script src="questions.js"></script>
+    <script src="questions.js">
+        
+
+
+    </script>
+   
 </body>
 
 

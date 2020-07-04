@@ -1,6 +1,7 @@
 //html variables that link to class IDs
 var start = document.getElementById("start-button")
 var quiz = document.getElementById("quiz");
+var question = document.getElementById("question");
 var choiceA = document.getElementById("A");
 var choiceB = document.getElementById("B");
 var choiceC = document.getElementById("C");
@@ -14,57 +15,58 @@ var startButton = document.querySelector("#start-button");
 //questions and answers array
 var questions = [
     {
-      question: "Commonly used data types DO NOT include:",
-      choiceA: "strings",
-      choiceB: "Booleans",
-      choiceC: "alerts",
-      choiceD: "numbers",
-      answer: "alerts"
+      question : "Commonly used data types DO NOT include:",
+      choiceA : "strings",
+      choiceB : "Booleans",
+      choiceC : "alerts",
+      choiceD : "numbers",
+      answer : "alerts"
     },
     {
-      question: "The condition in an if / else statement is enclosed within ____.",
-      choiceA: "quotes", 
-      choiceB: "curly brackets", 
+      question : "The condition in an if / else statement is enclosed within ____.",
+      choiceA : "quotes", 
+      choiceB : "curly brackets", 
       choiceC : "parentheses", 
-      choiceD: "square brackets",
-      answer: "parentheses"
+      choiceD : "square brackets",
+      answer : "parentheses"
     },
     {
-        question: "Which event occurs when the user clicks on an HTML element?",
-        choiceA: "onclick", 
-        choiceB: "onmouseclick", 
-        choiceC: "onfunction", 
-        choiceD: "click",
-        answer: "onclick"
+        question : "Which event occurs when the user clicks on an HTML element?",
+        choiceA : "onclick", 
+        choiceB : "onmouseclick", 
+        choiceC : "onfunction", 
+        choiceD : "click",
+        answer : "onclick"
     },
     {
-        question: "How do you declare a JavaScript variable?",
-        choiceA: "variable carName;", 
-        choiceB: "var carName;", 
-        choiceC: "carname; var", 
-        choiceD: "var Carname:",
-        answer: "var carName;"
+        question : "How do you declare a JavaScript variable?",
+        choiceA : "variable carName;", 
+        choiceB : "var carName;", 
+        choiceC : "carname; var", 
+        choiceD : "var Carname:",
+        answer : "var carName;"
     },
     {
-        question: "How to do you create a function in JavaScript?",
-        choiceA: "function myFunction()", 
-        choiceB: "function = myFunction()", 
-        choiceC: "var function = _____", 
-        choiceD: "All of the above",
-        answer: "function myFunction()"
+        question : "How to do you create a function in JavaScript?",
+        choiceA : "function myFunction()", 
+        choiceB : "function = myFunction()", 
+        choiceC : "var function = _____", 
+        choiceD : "All of the above",
+        answer : "function myFunction()"
     }
 ];
 //timer variables
 var totalSeconds = 75;
 var timeElapsed = 0;
-var status = "Begin!";
+var score = 0;
+var secondsLeft = totalSeconds - score - timeElapsed;
 var interval;
 //question variables
 var lastQuestion = question.length - 1;
-var runningQuesiton = 0;
-var count = 75;
+var runningQuestion = 0;
 
-function renderQuesiton() {
+//puts the question text from the array into the html
+function renderQuestion() {
     var q = questions[runningQuestion];
     question.innerHTML = "<p>"+ q.question +"</p>";
     choiceA.innerHTML = q.choiceA;
@@ -73,29 +75,50 @@ function renderQuesiton() {
     choiceD.innerHTML = q.choiceD;
 }
 
-
+//event listener and start quiz function kicks the whole thing off
 start.addEventListener("click", startQuiz);
 
 function startQuiz() {
     start.style.display = "none";
-    renderQuesiton();
+    renderQuestion();
     quiz.style.display = "block";
+    renderProgress();
     startTimer();
-    beginCount();
 
+}
+//progress of which question you're on
+function renderProgress() {
+    for (var qIndex = 0; qIndex <= lastQuestion; qIndex++) {
+        progress.innerHTML += "<div class='prog' id="+ qIndex +"></div>";
+    }
+}
+//function to check answers if they match the correct answer in the array
+function checkAnswer(answer) {
+    if (answer === questions[runningQuestion].correct) {
+       answerCorrect(); 
+    }
+    else {
+        answerWrong();
+        score + 15;
+    }
+    renderTime();
+}
+
+//change correct answer to green
+function answerIsCorrect(){
+    document.getElementById(runningQuestion).style.backgroundColor = "#0f0";
+}
+//change wrong answer to red
+function answerIsWrong(){
+    document.getElementById(runningQuestion).style.backgroundColor = "#f00";
 }
 
 
 
-
-
-
-
-
+//REJECTED HELL OF CODE I CANT GET TO WORK RIGHT
 //formats timer
 function getFormattedSeconds() {
-
-    var secondsLeft = totalSeconds - timeElapsed;
+    
     var formattedSeconds;
 
     if (secondsLeft < 10) {
@@ -103,16 +126,6 @@ function getFormattedSeconds() {
     } else {
         formattedSeconds = secondsLeft;
     }
-
-    return formattedSeconds;
-}
-//function to get the timer to begin once button is clicked
-function beginCount() {
-    var seconds; 
-    if (status === "Begin!") {
-        seconds = totalSeconds;
-    }
-
 }
 
 // This function does 2 things. displays the time and checks to see if time is up.
@@ -122,13 +135,13 @@ function renderTime() {
     secondsDisplay.textContent = getFormattedSeconds();
   
    // checks to see if timer ran out
-    if (timeElapsed >= totalSeconds) {
+    if (secondsLeft = 0) {
         alert("Times Up!")
   
         stopTimer();
-        return;
     }
-  }
+}
+
 //also attempt to get timer to start...
 function startTimer() {
     if (totalSeconds > 0) {
@@ -138,14 +151,14 @@ function startTimer() {
             renderTime();
         }, 1000);
     }    
-    else (formattedSeconds <= 0); {
+    else (secondsLeft = 0); {
         stopTimer;
-        return;
-    
     }
 }
+
+//stop timer
 function stopTimer() {
-    timeElapsed >= 75;
+    secondsLeft = 0;
     renderTime();
 }
 

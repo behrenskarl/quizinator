@@ -1,5 +1,5 @@
 // Questions for quiz
-$("#radio").prepend("<br><hr>" + questions);
+// $("#radio").prepend("<br><hr>" + questions);
 
 var questions = [
     {

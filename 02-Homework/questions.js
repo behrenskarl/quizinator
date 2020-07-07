@@ -12,6 +12,7 @@ var scoreDiv = document.getElementById("scoreContainer");
 var statusSpan = document.querySelector("#status");
 var secondsDisplay = document.querySelector("#seconds");
 var startButton = document.querySelector("#start-button");
+var timer;
 
 start.addEventListener("click", startQuiz);
 
@@ -60,7 +61,8 @@ var questions = [
 ];
 
 function startQuiz() {
-    // scoreDiv.style.display = "none";
+    score = 0;
+    timer = setInterval(runTimer, 1000);
     start.style.display = "none";
     renderQuestions();  
     quiz.style.display = "block";
@@ -74,17 +76,27 @@ var secondsElapsed = 0;
 
 // var timer = setInterval(runTimer(), 1000);
 function runTimer() {
-    var timer = setInterval(function() {
-        if (totalSeconds === 0) {
-        clearInterval(timer);
-        alert("Time's Up!");
-        scoreRender();
-        }
+    totalSeconds--;
+    secondsDisplay.textContent = this.totalSeconds;
+    if (totalSeconds <= 0) {
+        alert ("Time's Up!");
+        stopQuiz();
         
-        totalSeconds--;
-        secondsDisplay.textContent = this.totalSeconds;
+    }
+//     var timer = setInterval(function() {
+//         if (totalSeconds < 0) {
+//             totalSeconds = 0;
+//         }
+//         if (totalSeconds === 0) {
+//         clearInterval(timer);
+//         alert("Time's Up!");
+//         stopQuiz();
+//         }
         
-    }, 1000);
+//         totalSeconds--;
+//         secondsDisplay.textContent = this.totalSeconds;
+        
+//     }, 1000);
 }
 
 var lastQuestion = questions.length - 1;
@@ -136,6 +148,7 @@ function checkAnswer(answer) {
     if (answer == questions[runningQuestion].answer) {
       answerIsCorrect();
       score++;
+      
     } else {
       answerIsWrong(); 
     }
@@ -164,12 +177,15 @@ function answerIsWrong() {
 }
 
 function stopQuiz() {
-    if (secondsElapsed >= 0) {
-        quiz.style.display = "none";
-        start.style.display = "initial";
-        totalSeconds = 0;
-        scoreRender();
-    }    
+    clearInterval(timer);
+    runningQuestion = 0;
+    totalSeconds = 75;
+    // score = 0;
+    quiz.style.display = "none";
+    start.style.display = "initial";
+        
+    scoreRender();
+      
 }
 
 
@@ -179,15 +195,23 @@ function stopQuiz() {
 //     score = 0,
 //     history = []
 // }
-var history = [];
-  
+
+
 function scoreRender() {
+    var scorePercent = (100 * score/questions.length);
+    // var history = [].push(scorePercent);
+    var history = [];
+    console.log(score/questions.length);
+    console.log(scorePercent);
+    console.log(100 * score/questions.length);
+    console.log(score);
+    history.push(scorePercent);
     localStorage.setItem("scoreContainer", JSON.stringify(history));
     scoreDiv.style.display = "block";
-    var scorePercent = Math.round(100 * score/questions.length);
+   
     scoreDiv.innerHTML += "<p>"+ scorePercent +"%</p>"; 
     // secondsElapsed = 0;
-    // totalSeconds = 75;
+    
 } 
 
 

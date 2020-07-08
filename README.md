@@ -11,7 +11,9 @@ https://behrenskarl.github.io/quizinator/
 
 https://github.com/behrenskarl/quizinator
 
-# Screenshot 
+# Screenshots 
+quizinator/Assets/quiz1.png
+quizinator/Assets/quiz2.png
 
 
 
